@@ -71,25 +71,36 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        $imageFile = $data['img_name'];
+        if (!empty($data['img_name'])) {
 
-        $list = FileUploadServices::fileUpload($imageFile);
+            $imageFile = $data['img_name'];
 
-        list($extension, $fileNameToStore, $fileData) = $list;
+            $list = FileUploadServices::fileUpload($imageFile);
 
-        $data_url = CheckExtensionServices::checkExtension($fileData, $extension);
+            list($extension, $fileNameToStore, $fileData) = $list;
 
-        $image = Image::make($data_url);
+            $data_url = CheckExtensionServices::checkExtension($fileData, $extension);
 
-        $image->resize(400, 400)->save(storage_path() . '/app/public/images/' . $fileNameToStore);
+            $image = Image::make($data_url);
 
-        return User::create([
-            'name'              => $data['name'],
-            'email'             => $data['email'],
-            'password'          => Hash::make($data['password']),
-            'self_introduction' => $data['self_introduction'],
-            'sex'               => $data['sex'],
-            'img_name'          => $fileNameToStore,
-        ]);
+            $image->resize(400, 400)->save(storage_path() . '/app/public/images/' . $fileNameToStore);
+
+            return User::create([
+                'name'              => $data['name'],
+                'email'             => $data['email'],
+                'password'          => Hash::make($data['password']),
+                'self_introduction' => $data['self_introduction'],
+                'sex'               => $data['sex'],
+                'img_name'          => $fileNameToStore,
+            ]);
+        } else {
+            return User::create([
+                'name'              => $data['name'],
+                'email'             => $data['email'],
+                'password'          => Hash::make($data['password']),
+                'self_introduction' => $data['self_introduction'],
+                'sex'               => $data['sex'],
+            ]);
+        }
     }
 }
