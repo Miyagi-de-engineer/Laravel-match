@@ -11,7 +11,7 @@
                 </li>
                 <li class="appIcon">
                     <a href="{{ route('home') }}">
-                        <img src="/storage/images/techpit-match-icon.png" alt="">
+                        <img src="/storage/images/techpit-match-icon.png">
                     </a>
                 </li>
             </ul>
@@ -20,7 +20,7 @@
         <div id="tinderslide">
             <ul>
                 @foreach ($users as $user)
-                    <li data-user-id="{{ $user->id }}">
+                    <li data-user_id="{{ $user->id }}">
                         <div class="userName">{{ $user->name }}</div>
                         <img src="/storage/images/{{ $user->img_name }}" alt="">
                         <div class="like"></div>
@@ -35,4 +35,10 @@
             <a href="#" class="like"><i class="fas fa-heart fa-2x"></i></a>
         </div>
     </div>
+
+    <script>
+        var usersNum = {{ $userCount }};
+        var from_user_id = {{ $from_user_id }};
+    </script>
+
 @endsection
